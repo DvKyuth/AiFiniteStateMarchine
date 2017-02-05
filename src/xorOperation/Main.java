@@ -39,13 +39,13 @@ public class Main {
 					curChar = c.getChar(possition);
 					switch (curChar) {
 						case '*':
-							possition++;
+							++possition;
 							break ;
 						case '1':
-							possition++;
+							++possition;
 							break ;
 						case '0':
-							possition++;
+							++possition;
 							break ; 
 						case '&':
 							action = "MakeFirstDecision";
@@ -57,6 +57,7 @@ public class Main {
 							action = "MakeFirstDecision";
 							break ;
 						}
+					break;
 					
 				//==========================================================================
 				case "MakeFirstDecision":
@@ -64,19 +65,21 @@ public class Main {
 					switch (curChar) {
 						case '1':
 							action = "MakeDecisionWith1";
-							possition++;
+							++possition;
 							break ;
 						case '0':
-							action = "End";//"MakeDecisionWith0";
-							c.setChar('T', 2);
-							possition++;
+							action = "MakeDecisionWith0";
+							++possition;
 							break ; 
 						case '*':
 							action = "End";
 							break ;
 						}
+				default:
+					action = "End";
+					break;
 				}
 		}
-		System.out.println("String Result : " + c.getResult() + possition);
+		System.out.println("Debug String : " + c.getResult() + possition + action);
 	}
 }
