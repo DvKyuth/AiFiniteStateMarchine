@@ -13,7 +13,7 @@ public class Cursor {
 	public Cursor(String strA, String strB) {
 		dummy = new char[strA.length() + 1] ;
 		Arrays.fill(dummy, '*');
-		result.append('*' + strA + "&" + strB + "*");
+		result.append('=' + strA + "&" + strB + "*");
 		result.insert(0, dummy, 0, strA.length()+1);
 	}
 	

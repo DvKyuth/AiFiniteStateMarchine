@@ -61,7 +61,7 @@ public class Main {
 					action = "Move_To_*_For_1";
 					position++;
 					break;
-				case '*':
+				case '=':
 					action = "Transform";
 					position++;
 					break;
@@ -92,12 +92,12 @@ public class Main {
 				switch(curChar){
 				case '1':
 					c.setChar('B', position);
-					action = "Move_To_*_For_W1";
+					action = "Move_To_=_For_W1";
 					position--;
 					break;
 				case '0':
 					c.setChar('A', position);
-					action = "Move_To_*_For_W0";
+					action = "Move_To_=_For_W0";
 					position--;
 					break;
 				default:
@@ -127,12 +127,12 @@ public class Main {
 				switch(curChar){
 				case '1':
 					c.setChar('B', position);
-					action = "Move_To_*_For_W0";
+					action = "Move_To_=_For_W0";
 					position--;
 					break;
 				case '0':
 					c.setChar('A', position);
-					action = "Move_To_*_For_W1";
+					action = "Move_To_=_For_W1";
 					position--;
 					break;
 				default:
@@ -142,10 +142,10 @@ public class Main {
 				break;
 				
 			//Write Result
-			case "Move_To_*_For_W1" :
+			case "Move_To_=_For_W1" :
 				curChar = c.getChar(position);
 				switch(curChar){
-				case '*':
+				case '=':
 					action = "Write_1";
 					position--;
 					break;
@@ -154,10 +154,10 @@ public class Main {
 				}
 				break;
 				
-			case "Move_To_*_For_W0" :
+			case "Move_To_=_For_W0" :
 				curChar = c.getChar(position);
 				switch(curChar){
-				case '*':
+				case '=':
 					action = "Write_0";
 					position--;
 					break;
