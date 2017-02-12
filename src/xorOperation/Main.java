@@ -12,19 +12,19 @@ public class Main {
 		//Variable
 		Cursor c;
 		Scanner scanner = new Scanner(System.in);
-		String strA = "1100";
-		String strB = "1010";
-		String action = "Initial";
-		int possition = 0;
-		char curChar;
+		String strA = "";
+		String strB = "";
+		String action = "Move_To_&";
+		int position = 0;
+		char curChar = 'N';
 		
 		//User Input
-		//System.out.println("XOR Operation");
-		//System.out.println("Please input banary number to compare :");
-		//System.out.println("First value:");
-		//strA = scanner.nextLine();
-		//System.out.println("Second value:");
-		//strB = scanner.nextLine();
+		System.out.println("XOR Operation");
+		System.out.println("Please input banary number to compare :");
+		System.out.println("First value:");
+		strA = scanner.nextLine();
+		System.out.println("Second value:");
+		strB = scanner.nextLine();
 		
 		//Confirm String
 		c = new Cursor(strA, strB);
@@ -34,52 +34,193 @@ public class Main {
 			
 			switch (action) {
 			
-				//==========================================================================
-				case "Initial":
-					curChar = c.getChar(possition);
-					switch (curChar) {
-						case '*':
-							++possition;
-							break ;
-						case '1':
-							++possition;
-							break ;
-						case '0':
-							++possition;
-							break ; 
-						case '&':
-							action = "MakeFirstDecision";
-							break ;
-						case 'A':
-							action = "MakeFirstDecision";
-							break ;
-						case 'B':
-							action = "MakeFirstDecision";
-							break ;
-						}
+			//Move Right To &
+			case "Move_To_&":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '&':
+					action = "Get_First_Bit";
+					position--;
 					break;
-					
-				//==========================================================================
-				case "MakeFirstDecision":
-					curChar = c.getChar(possition - 1);
-					switch (curChar) {
-						case '1':
-							action = "MakeDecisionWith1";
-							++possition;
-							break ;
-						case '0':
-							action = "MakeDecisionWith0";
-							++possition;
-							break ; 
-						case '*':
-							action = "End";
-							break ;
-						}
 				default:
-					action = "End";
+					position++;
+				}
+				break;
+				
+			//Get one unprocessed bit of first number
+			case "Get_First_Bit":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '0':
+					c.setChar('A', position);
+					action = "Move_To_*_For_0";
+					position++;
+					break;
+				case '1':
+					c.setChar('B', position);
+					action = "Move_To_*_For_1";
+					position++;
+					break;
+				case '*':
+					action = "Transform";
+					position++;
+					break;
+				default:
+					position--;
 					break;
 				}
+				break;
+				
+			//0 bit processing block
+			//Move to the end of string
+			case "Move_To_*_For_0":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '*':
+					action = "Get_Result_For_0";
+					position--;
+					break;
+				default:
+					position++;
+					break;
+				}
+				break;
+				
+			//Get result for bit of second number XOR with 0
+			case "Get_Result_For_0":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '1':
+					c.setChar('B', position);
+					action = "Move_To_*_For_W1";
+					position--;
+					break;
+				case '0':
+					c.setChar('A', position);
+					action = "Move_To_*_For_W0";
+					position--;
+					break;
+				default:
+					position--;
+					break;
+				}
+				break;
+			
+			//1 bit processing block
+			//Move to the end of string
+			case "Move_To_*_For_1":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '*':
+					action = "Get_Result_For_1";
+					position--;
+					break;
+				default:
+					position++;
+					break;
+				}
+				break;
+				
+			//Get result for bit of second number XOR with 0
+			case "Get_Result_For_1":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '1':
+					c.setChar('B', position);
+					action = "Move_To_*_For_W0";
+					position--;
+					break;
+				case '0':
+					c.setChar('A', position);
+					action = "Move_To_*_For_W1";
+					position--;
+					break;
+				default:
+					position--;
+					break;
+				}
+				break;
+				
+			//Write Result
+			case "Move_To_*_For_W1" :
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '*':
+					action = "Write_1";
+					position--;
+					break;
+				default:
+					position--;
+				}
+				break;
+				
+			case "Move_To_*_For_W0" :
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '*':
+					action = "Write_0";
+					position--;
+					break;
+				default:
+					position--;
+				}
+				break;	
+				
+			case "Write_0":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '*':
+					c.setChar('0', position);
+					position++;
+					action = "Move_To_&";
+					break;
+				default:
+					position--;
+					break;
+				}
+				break;
+				
+			case "Write_1":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case '*':
+					c.setChar('1', position);
+					position++;
+					action = "Move_To_&";
+					break;
+				default:
+					position--;
+					break;
+				}
+				break;
+				
+			case "Transform":
+				curChar = c.getChar(position);
+				switch(curChar){
+				case 'A':
+					c.setChar('0', position);
+					position++;
+					break;
+				case 'B':
+					c.setChar('1', position);
+					position++;
+					break;
+				case '*':
+					action = "End";
+					break;
+				default:
+					position++;
+					break;
+				}
+				break;
+			
+			//Default For Action
+			default:
+				action = "End";
+				break;
+			}
 		}
-		System.out.println("Debug String : " + c.getResult() + possition + action);
+		
+		System.out.println("Result String : " + c.getResult());
 	}
 }
